@@ -1,1 +1,7 @@
 /dataset
+/mlruns
+*.png
+mlflow.log
+mlflow.sklearn.log_model
+mlflow.db
+/notebooks/04.pipeline_data/__pycache__
