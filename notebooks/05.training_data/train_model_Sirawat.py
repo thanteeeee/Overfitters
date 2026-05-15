@@ -13,9 +13,6 @@ from sklearn.metrics import (
     classification_report, confusion_matrix
 )
 
-# ============================================================
-# 0. โหลด data จาก pipeline
-# ============================================================
 pipepath = os.path.abspath("notebooks/04.pipeline_data")
 sys.path.append(pipepath)
 import Pipeline_Sirawat as pipe
@@ -36,9 +33,6 @@ x_train, x_test, y_train, y_test = train_test_split(
 CLASSES = ["No", "Yes", "Not Sure"]
 
 
-# ============================================================
-# 1. Helper Functions
-# ============================================================
 def plot_confusion_matrix(y_test, y_pred, title: str):
     cm = confusion_matrix(y_test, y_pred)
     fig, ax = plt.subplots(figsize=(6, 5))
@@ -75,10 +69,6 @@ def plot_feature_importance(model, feature_names: list):
     plt.close(fig)
     return path
 
-
-# ============================================================
-# 2. GridSearchCV
-# ============================================================
 param_grid = {
     "n_estimators"     : [100, 200, 300],
     "max_depth"        : [None, 5, 10, 20],
@@ -104,13 +94,11 @@ print("🔍 Running GridSearchCV for Random Forest...")
 print(f"   Total combinations: {3 * 4 * 3 * 3} × 5 folds = {3*4*3*3*5} fits")
 grid_search.fit(x_train, y_train)
 
-print(f"\n✅ Best Params : {grid_search.best_params_}")
-print(f"✅ Best CV F1  : {grid_search.best_score_:.4f}")
+print(f"\nBest Params : {grid_search.best_params_}")
+print(f"Best CV F1  : {grid_search.best_score_:.4f}")
 
 
-# ============================================================
-# 3. Evaluate Best Model
-# ============================================================
+
 best_model = grid_search.best_estimator_
 y_pred     = best_model.predict(x_test)
 
@@ -131,9 +119,6 @@ print(f"Test F1       : {f1:.4f}")
 print(f"CV F1 Mean    : {cv_scores.mean():.4f} ± {cv_scores.std():.4f}")
 
 
-# ============================================================
-# 4. MLflow Tracking
-# ============================================================
 mlflow.set_experiment("Sleep Quality Prediction")
 
 with mlflow.start_run(run_name="RandomForest_Tuned"):
@@ -159,13 +144,10 @@ with mlflow.start_run(run_name="RandomForest_Tuned"):
     fi_path = plot_feature_importance(best_model, x.columns.tolist())
     mlflow.log_artifact(fi_path)
 
-    print(f"\n✅ MLflow run logged!")
+    print(f"\nMLflow run logged!")
     print(f"   Run 'mlflow ui' → http://localhost:5000")
 
 
-# ============================================================
-# 5. เปรียบเทียบทั้งหมด
-# ============================================================
 print(f"\n{'='*55}")
 print("  Full Comparison")
 print(f"{'='*55}")
