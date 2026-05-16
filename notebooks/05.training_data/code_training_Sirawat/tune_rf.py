@@ -123,24 +123,19 @@ mlflow.set_experiment("Sleep Quality Prediction")
 
 with mlflow.start_run(run_name="RandomForest_Tuned"):
 
-    # Log best params
     mlflow.log_params(grid_search.best_params_)
 
-    # Log metrics
     mlflow.log_metric("accuracy", acc)
-    mlflow.log_metric("f1_weighted", f1)
+    mlflow.log_metric("f1", f1)
     mlflow.log_metric("cv_f1_mean", cv_scores.mean())
     mlflow.log_metric("cv_f1_std", cv_scores.std())
     mlflow.log_metric("best_cv_score", grid_search.best_score_)
 
-    # Log model
     mlflow.sklearn.log_model(best_model, artifact_path="RandomForest_Tuned")
 
-    # Log confusion matrix
     cm_path = plot_confusion_matrix(y_test, y_pred, "Confusion Matrix — Tuned RF")
     mlflow.log_artifact(cm_path)
 
-    # Log feature importance
     fi_path = plot_feature_importance(best_model, x.columns.tolist())
     mlflow.log_artifact(fi_path)
 
