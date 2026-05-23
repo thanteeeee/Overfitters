@@ -5,3 +5,5 @@ mlflow.log
 mlflow.sklearn.log_model
 mlflow.db
 /notebooks/04.pipeline_data/__pycache__
+/notebooks/05.pipeline_model/__pycache__
+/notebooks/06.deploy/Deploy_Sirawat/__pycache__
