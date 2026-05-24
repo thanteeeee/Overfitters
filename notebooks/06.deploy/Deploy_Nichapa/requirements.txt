@@ -1,0 +1,11 @@
+streamlit
+fastapi
+uvicorn
+requests
+joblib
+numpy
+pandas
+scipy
+scikit-learn==1.7.2
+lightgbm
+torch
